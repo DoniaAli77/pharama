@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pharma Dosage Tests</title>
     <style>
+       #welcome-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent background */
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      z-index: 1000; /* Ensure it is above all other elements */
+    }
       body {
         font-family: Arial, sans-serif;
         background: linear-gradient(to right, #f8fafc, #eef2f3);
@@ -90,6 +104,8 @@
     </style>
   </head>
   <body>
+    <div id="welcome-overlay">Welcome! Loading...</div>
+
     <div class="container">
       <h2>Pharma Dosage Tests</h2>
 
@@ -144,6 +160,10 @@
     </div>
 
     <script>
+      setTimeout(() => {
+      const welcomeOverlay = document.getElementById('welcome-overlay');
+      welcomeOverlay.style.display = 'none'; // Hide the welcome screen
+    }, 2500);
       const data = {
         tests: {
           "Dissolution Test": {

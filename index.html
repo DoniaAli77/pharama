@@ -1337,7 +1337,7 @@
             0;
           const difference = Math.abs(measuredValue - actualValue);
 
-          if (difference <= acceptableDifference) {
+          if (difference <= acceptableDifference/100) {
             document.getElementById("resultMessage").textContent =
               "The difference is within the acceptable range.";
             document.getElementById("resultMessage").style.color = "green";

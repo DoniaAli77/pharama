@@ -83,6 +83,10 @@
         margin-top: 15px;
         display: none;
       }
+      .weightField {
+        margin-top: 15px;
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -128,664 +132,935 @@
         <input type="text" id="actualValue" placeholder="Enter actual value" />
       </div>
 
+      <!-- Additional field for Friability test -->
+      <div class="weightField" id="WeightValueField">
+        <label for="weightValue">Enter Weight Value:</label>
+        <input type="text" id="weightValue" placeholder="Enter weight value" />
+      </div>
+
       <button onclick="submitForm()">Submit</button>
 
       <div id="resultMessage"></div>
     </div>
 
     <script>
-  const data = {
-  tests: {
-    "Dissolution Test": {
-      dosageForms: {
-        "Immediate Release Tablets": {
-          types: {
-            "Uncoated Tablets": {
-              standards: {
-                BP: { min: 75, max: 100 },
-                USP: { min: 75, max: 100 },
-                EP: { min: 75, max: 100 },
-                FDA: { min: 75, max: 100 },
-                EDA: { min: 75, max: 100 },
-                ICH: { min: 75, max: 100 },
-              },
-            },
-            "Coated Tablets": {
-              standards: {
-                BP: { min: 75, max: 100 },
-                USP: { min: 75, max: 100 },
-                EP: { min: 75, max: 100 },
-                FDA: { min: 75, max: 100 },
-                EDA: { min: 75, max: 100 },
-                ICH: { min: 75, max: 100 },
-              },
-            },
-          },
-        },
-        "Sustained Release Tablets": {
-          types: {
-            "Matrix Tablets": {
-              standards: {
-                BP: { min: 20, max: 80 },
-                USP: { min: 20, max: 80 },
-                EP: { min: 20, max: 80 },
-                FDA: { min: 20, max: 80 },
-                EDA: { min: 20, max: 80 },
-                ICH: { min: 20, max: 80 },
-              },
-            },
-            "Reservoir Tablets": {
-              standards: {
-                BP: { min: 20, max: 80 },
-                USP: { min: 20, max: 80 },
-                EP: { min: 20, max: 80 },
-                FDA: { min: 20, max: 80 },
-                EDA: { min: 20, max: 80 },
-                ICH: { min: 20, max: 80 },
-              },
-            },
-          },
-        },
-        "Controlled Release Tablets": {
-          types: {
-            "Extended-release Tablets": {
-              standards: {
-                BP: { min: 10, max: 30 },
-                USP: { min: 10, max: 30 },
-                EP: { min: 10, max: 30 },
-                FDA: { min: 10, max: 30 },
-                EDA: { min: 10, max: 30 },
-                ICH: { min: 10, max: 30 },
-              },
-            },
-            "Delayed-release Tablets": {
-              standards: {
-                BP: { min: 0, max: 75 },
-                USP: { min: 0, max: 75 },
-                EP: { min: 0, max: 75 },
-                FDA: { min: 0, max: 75 },
-                EDA: { min: 0, max: 75 },
-                ICH: { min: 0, max: 75 },
-              },
-            },
-          },
-        },
-        Lozenges: {
-          message:
-            "Dissolution Test is not required for lozenges, as they are designed for slow dissolution in the mouth.",
-        },
-
-        Capsules: {
-          types: {
-            "Hard Gelatin Capsules": {
-              standards: {
-                BP: { min: 75, max: 100 },
-                USP: { min: 75, max: 100 },
-                EP: { min: 75, max: 100 },
-                FDA: { min: 75, max: 100 },
-                EDA: { min: 75, max: 100 },
-                ICH: { min: 75, max: 100 },
-              },
-            },
-            "Soft Gelatin Capsules": {
-              standards: {
-                BP: { min: 75, max: 100 },
-                USP: { min: 75, max: 100 },
-                EP: { min: 75, max: 100 },
-                FDA: { min: 75, max: 100 },
-                EDA: { min: 75, max: 100 },
-                ICH: { min: 75, max: 100 },
-              },
-            },
-          },
-        },
-        "Effervescent Dosage": {
-          types: {
-            "Effervescent Tablets": {
-              standards: {
-                BP: { min: 100, max: 100 },
-                USP: { min: 100, max: 100 },
-                EP: { min: 100, max: 100 },
-                FDA: { min: 100, max: 100 },
-                EDA: { min: 100, max: 100 },
-                ICH: { min: 100, max: 100 },
-              },
-            },
-            "Effervescent Powders": {
-              standards: {
-                BP: { min: 100, max: 100 },
-                USP: { min: 100, max: 100 },
-                EP: { min: 100, max: 100 },
-                FDA: { min: 100, max: 100 },
-                EDA: { min: 100, max: 100 },
-                ICH: { min: 100, max: 100 },
-              },
-            },
-            "Effervescent Granules": {
-              standards: {
-                BP: { min: 100, max: 100 },
-                USP: { min: 100, max: 100 },
-                EP: { min: 100, max: 100 },
-                FDA: { min: 100, max: 100 },
-                EDA: { min: 100, max: 100 },
-                ICH: { min: 100, max: 100 },
-              },
-            },
-          },
-        },
-        "Powder Dosage": {
-         
-              message:
-                "Dissolution Test is not required for lozenges, as they are designed for slow dissolution in the mouth.",
-          
-          },
-        },
-      
-    },
-    "Hardness Test": {
-      dosageForms: {
-        "Immediate Release Tablets": {
-          types: {
-            "Uncoated Tablets": {
-              standards: {
-                BP: { min: 40, max: 100 },
-                USP: { min: 40, max: 100 },
-                EP: { min: 40, max: 100 },
-                FDA: { min: 40, max: 100 },
-                EDA: { min: 40, max: 100 },
-                ICH: { min: 40, max: 100 },
-              },
-            },
-            "Coated Tablets": {
-              standards: {
-                BP: { min: 60, max: 120 },
-                USP: { min: 60, max: 120 },
-                EP: { min: 60, max: 120 },
-                FDA: { min: 60, max: 120 },
-                EDA: { min: 60, max: 120 },
-                ICH: { min: 60, max: 120 },
-              },
-            },
-          },
-        },
-        "Sustained Release Tablets": {
-          types: {
-            "Matrix Tablets": {
-              standards: {
-                BP: { min: 80, max: 150 },
-                USP: { min: 80, max: 150 },
-                EP: { min: 80, max: 150 },
-                FDA: { min: 80, max: 150 },
-                EDA: { min: 80, max: 150 },
-                ICH: { min: 80, max: 150 },
-              },
-            },
-            "Reservoir tablets": {
-              standards: {
-                BP: { min: 80, max: 150 },
-                USP: { min: 80, max: 150 },
-                EP: { min: 80, max: 150 },
-                FDA: { min: 80, max: 150 },
-                EDA: { min: 80, max: 150 },
-                ICH: { min: 80, max: 150 },
-              },
-            },
-          },
-        },
-        "Controlled Release Tablets": {
-          types: {
-            "Extended-release tablets": {
-              standards: {
-                BP: { min: 80, max: 150 },
-                USP: { min: 80, max: 150 },
-                EP: { min: 80, max: 150 },
-                FDA: { min: 80, max: 150 },
-                EDA: { min: 80, max: 150 },
-                ICH: { min: 80, max: 150 },
-              },
-            },
-            "Delayed-release tablets": {
-              standards: {
-                BP: { min: 80, max: 150 },
-                USP: { min: 80, max: 150 },
-                EP: { min: 80, max: 150 },
-                FDA: { min: 80, max: 150 },
-                EDA: { min: 80, max: 150 },
-                ICH: { min: 80, max: 150 },
-              },
-            },
-          },
-        },
-        Lozenges: {
-          types: {
-            "Compressed lozenges": {
-              standards: {
-                BP: { min: 150, max: 300 },
-                USP: { min: 150, max: 300 },
-                EP: { min: 150, max: 300 },
-                FDA: { min: 150, max: 300 },
-                EDA: { min: 150, max: 300 },
-                ICH: { min: 150, max: 300 },
-              },
-            },
-          },
-        },
-        Capsules: {
-          message:
-            "Hardness Test is not applicable for this dosage form.",
-        },
-
-        "Effervescent Dosage": {
-          types: {
-            "Effervescent tablets": {
-              standards: {
-                BP: { min: 60, max: 120 },
-                USP: { min: 60, max: 120 },
-                EP: { min: 60, max: 120 },
-                FDA: { min: 60, max: 120 },
-                EDA: { min: 60, max: 120 },
-                ICH: { min: 60, max: 120 },
-              },
-            },
-            "Effervescent Powders": {
-              message:
-                "Hardness Test is not applicable for this dosage form.",
-            },
-            "Effervescent Granules": {
-              message:
-                "Hardness Test is not applicable for this dosage form.",
-            },
-          },
-        },
-        "Powder Dosage": {
-          message:
-            "Hardness Test is not applicable for this dosage form.",
-        },
-      },
-    },
-    "Disintegration Test": {
-      dosageForms: {
-        "Immediate Release Tablets": {
-          types: {
-            "Uncoated Tablets": {
-              standards: {
-                BP: { max: 15 },
-                USP: { max: 15 },
-                EP: { max: 15 },
-                FDA: { max: 15 },
-                EDA: { max: 15 },
-                ICH: { max: 15 },
-              },
-            },
-            "Film Coated Tablets": {
-              standards: {
-                BP: { max: 30 },
-                USP: { max: 30 },
-                EP: { max: 30 },
-                FDA: { max: 30 },
-                EDA: { max: 30 },
-                ICH: { max: 30 },
-              },
-            },
-            "Sugar Coated Tablets": {
-              standards: {
-                BP: { max: 60 },
-                USP: { max: 60 },
-                EP: { max: 60 },
-                FDA: { max: 60 },
-                EDA: { max: 60 },
-                ICH: { max: 60 },
-              },
-            },
-          },
-        },
-        "Effervescent Tablets": {
-          types: {
-            "Effervescent Tablets": {
-              standards: {
-                BP: { max: 5 },
-                USP: { max: 5 },
-                EP: { max: 5 },
-                FDA: { max: 5 },
-                EDA: { max: 5 },
-                ICH: { max: 5 },
-              },
-            },
-            "Effervescent Powders": {
-              standards: {
-                BP: { max: 5 },
-                USP: { max: 5 },
-                EP: { max: 5 },
-                FDA: { max: 5 },
-                EDA: { max: 5 },
-                ICH: { max: 5 },
-              },
-            },
-            "Effervescent Granules": {
-              standards: {
-                BP: { max: 5 },
-                USP: { max: 5 },
-                EP: { max: 5 },
-                FDA: { max: 5 },
-                EDA: { max: 5 },
-                ICH: { max: 5 },
-              },
-            },
-          },
-        },
-
-        "Sustained Release Tablets": {
-          message:
-            "Hardness Test is not applicable for this dosage form.",
-        },
-        "Controlled Release Tablets ": {
-          message:
-            "Hardness Test is not applicable for this dosage form.",
-        },
-        Lozenges: {
-          message:
-            "Hardness Test is not applicable for this dosage form.",
-        },
-        "Powder Dosage": {
-          message:
-            "Hardness Test is not applicable for this dosage form.",
-        },
-      },
-
-      "pH Test": {
-        dosageForms: {
-          "Immediate Release Tablets": {
-            message:
-              "pH testing is not typically required for immediate release tablets unless intended for specific disintegration in a particular medium (e.g., enteric-coated forms).",
-          },
-          "Sustained Release Tablets": {
-            message:
-              "pH testing is not required for sustained release tablets as dissolution testing at different pH levels is typically performed.",
-          },
-          "Controlled Release Tablets": {
-            message:
-              "pH testing is not required for controlled release tablets as dissolution testing at varying pH levels is performed instead.",
-          },
-          Lozenges: {
-            types: {
-              "Compressed lozenges": {
-                standards: {
-                  BP: { min: 5.0, max: 7.0 },
-                  USP: { min: 5.0, max: 7.0 },
-                  EP: { min: 5.0, max: 7.0 },
-                  FDA: { min: 5.0, max: 7.0 },
-                  EDA: { min: 5.0, max: 7.0 },
-                  ICH: { min: 5.0, max: 7.0 },
+      const data = {
+        tests: {
+          "Dissolution Test": {
+            dosageForms: {
+              "Immediate Release Tablets": {
+                types: {
+                  "Uncoated Tablets": {
+                    standards: {
+                      BP: { min: 75, max: 100 },
+                      USP: { min: 75, max: 100 },
+                      EP: { min: 75, max: 100 },
+                      FDA: { min: 75, max: 100 },
+                      EDA: { min: 75, max: 100 },
+                      ICH: { min: 75, max: 100 },
+                    },
+                  },
+                  "Coated Tablets": {
+                    standards: {
+                      BP: { min: 75, max: 100 },
+                      USP: { min: 75, max: 100 },
+                      EP: { min: 75, max: 100 },
+                      FDA: { min: 75, max: 100 },
+                      EDA: { min: 75, max: 100 },
+                      ICH: { min: 75, max: 100 },
+                    },
+                  },
                 },
               },
-            },
-          },
-          Capsules: {
-            types: {
-              "Hard Gelatin Capsules": {
+              "Sustained Release Tablets": {
+                types: {
+                  "Matrix Tablets": {
+                    standards: {
+                      BP: { min: 20, max: 80 },
+                      USP: { min: 20, max: 80 },
+                      EP: { min: 20, max: 80 },
+                      FDA: { min: 20, max: 80 },
+                      EDA: { min: 20, max: 80 },
+                      ICH: { min: 20, max: 80 },
+                    },
+                  },
+                  "Reservoir Tablets": {
+                    standards: {
+                      BP: { min: 20, max: 80 },
+                      USP: { min: 20, max: 80 },
+                      EP: { min: 20, max: 80 },
+                      FDA: { min: 20, max: 80 },
+                      EDA: { min: 20, max: 80 },
+                      ICH: { min: 20, max: 80 },
+                    },
+                  },
+                },
+              },
+              "Controlled Release Tablets": {
+                types: {
+                  "Extended-release Tablets": {
+                    standards: {
+                      BP: { min: 10, max: 30 },
+                      USP: { min: 10, max: 30 },
+                      EP: { min: 10, max: 30 },
+                      FDA: { min: 10, max: 30 },
+                      EDA: { min: 10, max: 30 },
+                      ICH: { min: 10, max: 30 },
+                    },
+                  },
+                  "Delayed-release Tablets": {
+                    standards: {
+                      BP: { min: 0, max: 75 },
+                      USP: { min: 0, max: 75 },
+                      EP: { min: 0, max: 75 },
+                      FDA: { min: 0, max: 75 },
+                      EDA: { min: 0, max: 75 },
+                      ICH: { min: 0, max: 75 },
+                    },
+                  },
+                },
+              },
+              Lozenges: {
                 message:
-                  "pH testing is focused on the dissolution medium, not the dosage form itself.",
+                  "Dissolution Test is not required for lozenges, as they are designed for slow dissolution in the mouth.",
               },
-              "Soft Gelatin Capsules": {
-                standards: {
-                  BP: { min: 2.5, max: 7.5 },
-                  USP: { min: 2.5, max: 7.5 },
-                  EP: { min: 2.5, max: 7.5 },
-                  FDA: { min: 2.5, max: 7.5 },
-                  EDA: { min: 2.5, max: 7.5 },
-                  ICH: { min: 2.5, max: 7.5 },
+
+              Capsules: {
+                types: {
+                  "Hard Gelatin Capsules": {
+                    standards: {
+                      BP: { min: 75, max: 100 },
+                      USP: { min: 75, max: 100 },
+                      EP: { min: 75, max: 100 },
+                      FDA: { min: 75, max: 100 },
+                      EDA: { min: 75, max: 100 },
+                      ICH: { min: 75, max: 100 },
+                    },
+                  },
+                  "Soft Gelatin Capsules": {
+                    standards: {
+                      BP: { min: 75, max: 100 },
+                      USP: { min: 75, max: 100 },
+                      EP: { min: 75, max: 100 },
+                      FDA: { min: 75, max: 100 },
+                      EDA: { min: 75, max: 100 },
+                      ICH: { min: 75, max: 100 },
+                    },
+                  },
                 },
+              },
+              "Effervescent Dosage": {
+                types: {
+                  "Effervescent Tablets": {
+                    standards: {
+                      BP: { min: 100, max: 100 },
+                      USP: { min: 100, max: 100 },
+                      EP: { min: 100, max: 100 },
+                      FDA: { min: 100, max: 100 },
+                      EDA: { min: 100, max: 100 },
+                      ICH: { min: 100, max: 100 },
+                    },
+                  },
+                  "Effervescent Powders": {
+                    standards: {
+                      BP: { min: 100, max: 100 },
+                      USP: { min: 100, max: 100 },
+                      EP: { min: 100, max: 100 },
+                      FDA: { min: 100, max: 100 },
+                      EDA: { min: 100, max: 100 },
+                      ICH: { min: 100, max: 100 },
+                    },
+                  },
+                  "Effervescent Granules": {
+                    standards: {
+                      BP: { min: 100, max: 100 },
+                      USP: { min: 100, max: 100 },
+                      EP: { min: 100, max: 100 },
+                      FDA: { min: 100, max: 100 },
+                      EDA: { min: 100, max: 100 },
+                      ICH: { min: 100, max: 100 },
+                    },
+                  },
+                },
+              },
+              "Powder Dosage": {
+                message:
+                  "Dissolution Test is not required for lozenges, as they are designed for slow dissolution in the mouth.",
               },
             },
           },
-          "Powder Dosage": {
-            types: {
-              "Powder for Oral Suspension": {
-                standards: {
-                  BP: { min: 4.0, max: 7.0 },
-                  USP: { min: 4.0, max: 7.0 },
-                  EP: { min: 4.0, max: 7.0 },
-                  FDA: { min: 4.0, max: 7.0 },
-                  EDA: { min: 4.0, max: 7.0 },
-                  ICH: { min: 4.0, max: 7.0 },
+          "Hardness Test": {
+            dosageForms: {
+              "Immediate Release Tablets": {
+                types: {
+                  "Uncoated Tablets": {
+                    standards: {
+                      BP: { min: 40, max: 100 },
+                      USP: { min: 40, max: 100 },
+                      EP: { min: 40, max: 100 },
+                      FDA: { min: 40, max: 100 },
+                      EDA: { min: 40, max: 100 },
+                      ICH: { min: 40, max: 100 },
+                    },
+                  },
+                  "Coated Tablets": {
+                    standards: {
+                      BP: { min: 60, max: 120 },
+                      USP: { min: 60, max: 120 },
+                      EP: { min: 60, max: 120 },
+                      FDA: { min: 60, max: 120 },
+                      EDA: { min: 60, max: 120 },
+                      ICH: { min: 60, max: 120 },
+                    },
+                  },
                 },
               },
-              "Powder for Inhalation": {
-                message: "pH testing is not applicable",
+              "Sustained Release Tablets": {
+                types: {
+                  "Matrix Tablets": {
+                    standards: {
+                      BP: { min: 80, max: 150 },
+                      USP: { min: 80, max: 150 },
+                      EP: { min: 80, max: 150 },
+                      FDA: { min: 80, max: 150 },
+                      EDA: { min: 80, max: 150 },
+                      ICH: { min: 80, max: 150 },
+                    },
+                  },
+                  "Reservoir tablets": {
+                    standards: {
+                      BP: { min: 80, max: 150 },
+                      USP: { min: 80, max: 150 },
+                      EP: { min: 80, max: 150 },
+                      FDA: { min: 80, max: 150 },
+                      EDA: { min: 80, max: 150 },
+                      ICH: { min: 80, max: 150 },
+                    },
+                  },
+                },
+              },
+              "Controlled Release Tablets": {
+                types: {
+                  "Extended-release tablets": {
+                    standards: {
+                      BP: { min: 80, max: 150 },
+                      USP: { min: 80, max: 150 },
+                      EP: { min: 80, max: 150 },
+                      FDA: { min: 80, max: 150 },
+                      EDA: { min: 80, max: 150 },
+                      ICH: { min: 80, max: 150 },
+                    },
+                  },
+                  "Delayed-release tablets": {
+                    standards: {
+                      BP: { min: 80, max: 150 },
+                      USP: { min: 80, max: 150 },
+                      EP: { min: 80, max: 150 },
+                      FDA: { min: 80, max: 150 },
+                      EDA: { min: 80, max: 150 },
+                      ICH: { min: 80, max: 150 },
+                    },
+                  },
+                },
+              },
+              Lozenges: {
+                types: {
+                  "Compressed lozenges": {
+                    standards: {
+                      BP: { min: 150, max: 300 },
+                      USP: { min: 150, max: 300 },
+                      EP: { min: 150, max: 300 },
+                      FDA: { min: 150, max: 300 },
+                      EDA: { min: 150, max: 300 },
+                      ICH: { min: 150, max: 300 },
+                    },
+                  },
+                },
+              },
+              Capsules: {
+                message:
+                  "Hardness Test is not applicable for this dosage form.",
+              },
+
+              "Effervescent Dosage": {
+                types: {
+                  "Effervescent tablets": {
+                    standards: {
+                      BP: { min: 60, max: 120 },
+                      USP: { min: 60, max: 120 },
+                      EP: { min: 60, max: 120 },
+                      FDA: { min: 60, max: 120 },
+                      EDA: { min: 60, max: 120 },
+                      ICH: { min: 60, max: 120 },
+                    },
+                  },
+                  "Effervescent Powders": {
+                    message:
+                      "Hardness Test is not applicable for this dosage form.",
+                  },
+                  "Effervescent Granules": {
+                    message:
+                      "Hardness Test is not applicable for this dosage form.",
+                  },
+                },
+              },
+              "Powder Dosage": {
+                message:
+                  "Hardness Test is not applicable for this dosage form.",
               },
             },
           },
-          "Effervescent Dosage": {
-            types: {
+          "Disintegration Test": {
+            dosageForms: {
+              "Immediate Release Tablets": {
+                types: {
+                  "Uncoated Tablets": {
+                    standards: {
+                      BP: { max: 15 },
+                      USP: { max: 15 },
+                      EP: { max: 15 },
+                      FDA: { max: 15 },
+                      EDA: { max: 15 },
+                      ICH: { max: 15 },
+                    },
+                  },
+                  "Film Coated Tablets": {
+                    standards: {
+                      BP: { max: 30 },
+                      USP: { max: 30 },
+                      EP: { max: 30 },
+                      FDA: { max: 30 },
+                      EDA: { max: 30 },
+                      ICH: { max: 30 },
+                    },
+                  },
+                  "Sugar Coated Tablets": {
+                    standards: {
+                      BP: { max: 60 },
+                      USP: { max: 60 },
+                      EP: { max: 60 },
+                      FDA: { max: 60 },
+                      EDA: { max: 60 },
+                      ICH: { max: 60 },
+                    },
+                  },
+                },
+              },
               "Effervescent Tablets": {
-                standards: {
-                  BP: { min: 5.0, max: 7.0 },
-                  USP: { min: 5.0, max: 7.0 },
-                  EP: { min: 5.0, max: 7.0 },
-                  FDA: { min: 5.0, max: 7.0 },
-                  EDA: { min: 5.0, max: 7.0 },
-                  ICH: { min: 5.0, max: 7.0 },
+                types: {
+                  "Effervescent Tablets": {
+                    standards: {
+                      BP: { max: 5 },
+                      USP: { max: 5 },
+                      EP: { max: 5 },
+                      FDA: { max: 5 },
+                      EDA: { max: 5 },
+                      ICH: { max: 5 },
+                    },
+                  },
+                  "Effervescent Powders": {
+                    standards: {
+                      BP: { max: 5 },
+                      USP: { max: 5 },
+                      EP: { max: 5 },
+                      FDA: { max: 5 },
+                      EDA: { max: 5 },
+                      ICH: { max: 5 },
+                    },
+                  },
+                  "Effervescent Granules": {
+                    standards: {
+                      BP: { max: 5 },
+                      USP: { max: 5 },
+                      EP: { max: 5 },
+                      FDA: { max: 5 },
+                      EDA: { max: 5 },
+                      ICH: { max: 5 },
+                    },
+                  },
                 },
               },
-              "Effervescent Powders": {
-                standards: {
-                  BP: { min: 5.0, max: 7.0 },
-                  USP: { min: 5.0, max: 7.0 },
-                  EP: { min: 5.0, max: 7.0 },
-                  FDA: { min: 5.0, max: 7.0 },
-                  EDA: { min: 5.0, max: 7.0 },
-                  ICH: { min: 5.0, max: 7.0 },
+
+              "Sustained Release Tablets": {
+                message:
+                  "Hardness Test is not applicable for this dosage form.",
+              },
+              "Controlled Release Tablets ": {
+                message:
+                  "Hardness Test is not applicable for this dosage form.",
+              },
+              Lozenges: {
+                message:
+                  "Hardness Test is not applicable for this dosage form.",
+              },
+              "Powder Dosage": {
+                message:
+                  "Hardness Test is not applicable for this dosage form.",
+              },
+            },
+
+            "pH Test": {
+              dosageForms: {
+                "Immediate Release Tablets": {
+                  message:
+                    "pH testing is not typically required for immediate release tablets unless intended for specific disintegration in a particular medium (e.g., enteric-coated forms).",
+                },
+                "Sustained Release Tablets": {
+                  message:
+                    "pH testing is not required for sustained release tablets as dissolution testing at different pH levels is typically performed.",
+                },
+                "Controlled Release Tablets": {
+                  message:
+                    "pH testing is not required for controlled release tablets as dissolution testing at varying pH levels is performed instead.",
+                },
+                Lozenges: {
+                  types: {
+                    "Compressed lozenges": {
+                      standards: {
+                        BP: { min: 5.0, max: 7.0 },
+                        USP: { min: 5.0, max: 7.0 },
+                        EP: { min: 5.0, max: 7.0 },
+                        FDA: { min: 5.0, max: 7.0 },
+                        EDA: { min: 5.0, max: 7.0 },
+                        ICH: { min: 5.0, max: 7.0 },
+                      },
+                    },
+                  },
+                },
+                Capsules: {
+                  types: {
+                    "Hard Gelatin Capsules": {
+                      message:
+                        "pH testing is focused on the dissolution medium, not the dosage form itself.",
+                    },
+                    "Soft Gelatin Capsules": {
+                      standards: {
+                        BP: { min: 2.5, max: 7.5 },
+                        USP: { min: 2.5, max: 7.5 },
+                        EP: { min: 2.5, max: 7.5 },
+                        FDA: { min: 2.5, max: 7.5 },
+                        EDA: { min: 2.5, max: 7.5 },
+                        ICH: { min: 2.5, max: 7.5 },
+                      },
+                    },
+                  },
+                },
+                "Powder Dosage": {
+                  types: {
+                    "Powder for Oral Suspension": {
+                      standards: {
+                        BP: { min: 4.0, max: 7.0 },
+                        USP: { min: 4.0, max: 7.0 },
+                        EP: { min: 4.0, max: 7.0 },
+                        FDA: { min: 4.0, max: 7.0 },
+                        EDA: { min: 4.0, max: 7.0 },
+                        ICH: { min: 4.0, max: 7.0 },
+                      },
+                    },
+                    "Powder for Inhalation": {
+                      message: "pH testing is not applicable",
+                    },
+                  },
+                },
+                "Effervescent Dosage": {
+                  types: {
+                    "Effervescent Tablets": {
+                      standards: {
+                        BP: { min: 5.0, max: 7.0 },
+                        USP: { min: 5.0, max: 7.0 },
+                        EP: { min: 5.0, max: 7.0 },
+                        FDA: { min: 5.0, max: 7.0 },
+                        EDA: { min: 5.0, max: 7.0 },
+                        ICH: { min: 5.0, max: 7.0 },
+                      },
+                    },
+                    "Effervescent Powders": {
+                      standards: {
+                        BP: { min: 5.0, max: 7.0 },
+                        USP: { min: 5.0, max: 7.0 },
+                        EP: { min: 5.0, max: 7.0 },
+                        FDA: { min: 5.0, max: 7.0 },
+                        EDA: { min: 5.0, max: 7.0 },
+                        ICH: { min: 5.0, max: 7.0 },
+                      },
+                    },
+                    "Effervescent Granules": {
+                      standards: {
+                        BP: { min: 5.0, max: 7.0 },
+                        USP: { min: 5.0, max: 7.0 },
+                        EP: { min: 5.0, max: 7.0 },
+                        FDA: { min: 5.0, max: 7.0 },
+                        EDA: { min: 5.0, max: 7.0 },
+                        ICH: { min: 5.0, max: 7.0 },
+                      },
+                    },
+                  },
+                },
+                Lozenges: {
+                  types: {
+                    "Compressed lozenges": {
+                      standards: {
+                        BP: { min: 5.0, max: 7.0 },
+                        USP: { min: 5.0, max: 7.0 },
+                        EP: { min: 5.0, max: 7.0 },
+                        FDA: { min: 5.0, max: 7.0 },
+                        EDA: { min: 5.0, max: 7.0 },
+                        ICH: { min: 5.0, max: 7.0 },
+                      },
+                    },
+                  },
                 },
               },
-              "Effervescent Granules": {
-                standards: {
-                  BP: { min: 5.0, max: 7.0 },
-                  USP: { min: 5.0, max: 7.0 },
-                  EP: { min: 5.0, max: 7.0 },
-                  FDA: { min: 5.0, max: 7.0 },
-                  EDA: { min: 5.0, max: 7.0 },
-                  ICH: { min: 5.0, max: 7.0 },
+            },
+          },
+          "Friability Test": {
+            dosageForms: {
+              "Immediate Release Tablets": {
+                types: {
+                  "Uncoated Tablets": {
+                    standards: {
+                      BP: { maxDifference: 1.0 },
+                      USP: { maxDifference: 1.0 },
+                      EP: { maxDifference: 1.0 },
+                      FDA: { maxDifference: 1.0 },
+                      EDA: { maxDifference: 1.0 },
+                      ICH: { maxDifference: 1.0 },
+                    },
+                  },
+                },
+              },
+              "Sustained Release Tablets": {
+                message:
+                  "Friability is generally not tested for sustained-release tablets due to coating or modified-release properties.",
+              },
+              "Controlled Release Tablets": {
+                message:
+                  "Friability is not typically tested for controlled-release tablets due to the protective coating or other physical modifications.",
+              },
+              Lozenges: {
+                message:
+                  "Friability test is not required, as these are designed for slow dissolution in the mouth.",
+              },
+              Capsules: {
+                message:
+                  "Friability test is not conducted for capsules. Instead, tests focus on mechanical integrity and content uniformity.",
+              },
+              "Powder Dosage": {
+                message: "Friability does not apply to powder forms.",
+              },
+              "Effervescent Dosage": {
+                types: {
+                  "Effervescent Tablets": {
+                    standards: {
+                      BP: { maxDifference: 1.0 },
+                      USP: { maxDifference: 1.0 },
+                      EP: { maxDifference: 1.0 },
+                      FDA: { maxDifference: 1.0 },
+                      EDA: { maxDifference: 1.0 },
+                      ICH: { maxDifference: 1.0 },
+                    },
+                  },
+                  "Effervescent Powders": {
+                    message: "Friability is not tested for powders.",
+                  },
+                  "Effervescent Granules": {
+                    message: "Friability is not tested for granules.",
+                  },
                 },
               },
             },
           },
-          Lozenges: {
-            types: {
-              "Compressed lozenges": {
-                standards: {
-                  BP: { min: 5.0, max: 7.0 },
-                  USP: { min: 5.0, max: 7.0 },
-                  EP: { min: 5.0, max: 7.0 },
-                  FDA: { min: 5.0, max: 7.0 },
-                  EDA: { min: 5.0, max: 7.0 },
-                  ICH: { min: 5.0, max: 7.0 },
+          "Thickness Test": {
+            dosageForms: {
+              "Immediate Release Tablets": {
+                types: {
+                  "Uncoated Tablets": {
+                    standards: {
+                      BP: { maxDifference: 5 },
+                      USP: { maxDifference: 5 },
+                      EP: { maxDifference: 5 },
+                      FDA: { maxDifference: 5 },
+                      EDA: { maxDifference: 5 },
+                      ICH: { maxDifference: 5 },
+                    },
+                  },
+                  "Coated Tablets": {
+                    standards: {
+                      BP: { maxDifference: 5 },
+                      USP: { maxDifference: 5 },
+                      EP: { maxDifference: 5 },
+                      FDA: { maxDifference: 5 },
+                      EDA: { maxDifference: 5 },
+                      ICH: { maxDifference: 5 },
+                    },
+                  },
+                },
+              },
+              "Sustained Release Tablets": {
+                types: {
+                  "Matrix Tablets": {
+                    standards: {
+                      BP: { maxDifference: 5 },
+                      USP: { maxDifference: 5 },
+                      EP: { maxDifference: 5 },
+                      FDA: { maxDifference: 5 },
+                      EDA: { maxDifference: 5 },
+                      ICH: { maxDifference: 5 },
+                    },
+                  },
+                  "Reservoir Tablets": {
+                    standards: {
+                      BP: { maxDifference: 5 },
+                      USP: { maxDifference: 5 },
+                      EP: { maxDifference: 5 },
+                      FDA: { maxDifference: 5 },
+                      EDA: { maxDifference: 5 },
+                      ICH: { maxDifference: 5 },
+                    },
+                  },
+                },
+              },
+              "Controlled Release Tablets": {
+                types: {
+                  "Extended-release Tablets": {
+                    standards: {
+                      BP: { maxDifference: 5 },
+                      USP: { maxDifference: 5 },
+                      EP: { maxDifference: 5 },
+                      FDA: { maxDifference: 5 },
+                      EDA: { maxDifference: 5 },
+                      ICH: { maxDifference: 5 },
+                    },
+                  },
+                  "Delayed-release Tablets": {
+                    standards: {
+                      BP: { maxDifference: 5 },
+                      USP: { maxDifference: 5 },
+                      EP: { maxDifference: 5 },
+                      FDA: { maxDifference: 5 },
+                      EDA: { maxDifference: 5 },
+                      ICH: { maxDifference: 5 },
+                    },
+                  },
+                },
+              },
+              Lozenges: {
+                types: {
+                  "Compressed Lozenges": {
+                    standards: {
+                      BP: { maxDifference: 5 },
+                      USP: { maxDifference: 5 },
+                      EP: { maxDifference: 5 },
+                      FDA: { maxDifference: 5 },
+                      EDA: { maxDifference: 5 },
+                      ICH: { maxDifference: 5 },
+                    },
+                  },
+                },
+              },
+              Capsules: {
+                message: "Thickness testing is not performed on capsules.",
+              },
+
+              "Effervescent Doasge": {
+                types: {
+                  "Effervescent Tablets": {
+                    standards: {
+                      BP: { maxDifference: 5 },
+                      USP: { maxDifference: 5 },
+                      EP: { maxDifference: 5 },
+                      FDA: { maxDifference: 5 },
+                      EDA: { maxDifference: 5 },
+                      ICH: { maxDifference: 5 },
+                    },
+                  },
+                  "Effervescent Powders": {
+                    message: "Thickness testing is not relevant for powders.",
+                  },
+                  "Effervescent Granules": {
+                    message: "Thickness testing is not relevant for granules.",
+                  },
+                },
+              },
+
+              "Powder Dosage": {
+                message: "Thickness testing is not relevant for powders.",
+              },
+            },
+          },
+          "weight Variation Test": {
+            dosageForms: {
+              "Immediate Release Tablets": {
+                range: true,
+
+                types: {
+                  "Uncoated Tablets": {
+                    standards: {
+                      BP: {
+                        ranges: [
+                          { weightRange: "<130mg", tolerance: 7.5 },
+                          { weightRange: "130-324mg", tolerance: 5 },
+                          { weightRange: ">324mg", tolerance: 3 },
+                        ],
+                      },
+                      USP: {
+                        ranges: [
+                          { weightRange: "<130mg", tolerance: 7.5 },
+                          { weightRange: "130-324mg", tolerance: 5 },
+                          { weightRange: ">324mg", tolerance: 3 },
+                        ],
+                      },
+                      EP: {
+                        ranges: [
+                          { weightRange: "<130mg", tolerance: 7.5 },
+                          { weightRange: "130-324mg", tolerance: 5 },
+                          { weightRange: ">324mg", tolerance: 3 },
+                        ],
+                      },
+                      FDA: {
+                        ranges: [
+                          { weightRange: "<130mg", tolerance: 7.5 },
+                          { weightRange: "130-324mg", tolerance: 5 },
+                          { weightRange: ">324mg", tolerance: 3 },
+                        ],
+                      },
+                      EDA: {
+                        ranges: [
+                          { weightRange: "<130mg", tolerance: 7.5 },
+                          { weightRange: "130-324mg", tolerance: 5 },
+                          { weightRange: ">324mg", tolerance: 3 },
+                        ],
+                      },
+                      ICH: {
+                        ranges: [
+                          { weightRange: "<130mg", tolerance: 7.5 },
+                          { weightRange: "130-324mg", tolerance: 5 },
+                          { weightRange: ">324mg", tolerance: 3 },
+                        ],
+                      },
+                    },
+                  },
+                  "Coated Tablets": {
+                    standards: {
+                      BP: {
+                        ranges: [
+                          { weightRange: "<130mg", tolerance: 7.5 },
+                          { weightRange: "130-324mg", tolerance: 5 },
+                          { weightRange: ">324mg", tolerance: 3 },
+                        ],
+                      },
+                      USP: {
+                        ranges: [
+                          { weightRange: "<130mg", tolerance: 7.5 },
+                          { weightRange: "130-324mg", tolerance: 5 },
+                          { weightRange: ">324mg", tolerance: 3 },
+                        ],
+                      },
+                      EP: {
+                        ranges: [
+                          { weightRange: "<130mg", tolerance: 7.5 },
+                          { weightRange: "130-324mg", tolerance: 5 },
+                          { weightRange: ">324mg", tolerance: 3 },
+                        ],
+                      },
+                      FDA: {
+                        ranges: [
+                          { weightRange: "<130mg", tolerance: 7.5 },
+                          { weightRange: "130-324mg", tolerance: 5 },
+                          { weightRange: ">324mg", tolerance: 3 },
+                        ],
+                      },
+                      EDA: {
+                        ranges: [
+                          { weightRange: "<130mg", tolerance: 7.5 },
+                          { weightRange: "130-324mg", tolerance: 5 },
+                          { weightRange: ">324mg", tolerance: 3 },
+                        ],
+                      },
+                      ICH: {
+                        ranges: [
+                          { weightRange: "<130mg", tolerance: 7.5 },
+                          { weightRange: "130-324mg", tolerance: 5 },
+                          { weightRange: ">324mg", tolerance: 3 },
+                        ],
+                      },
+                    },
+                  },
+                },
+              },
+              "Sustained Release Tablets": {
+                types: {
+                  "Matrix Tablets": {
+                    standards: {
+                      BP: { tolerance: 5 },
+                      USP: { tolerance: 5 },
+                      EP: { tolerance: 5 },
+                      FDA: { tolerance: 5 },
+                      EDA: { tolerance: 5 },
+                      ICH: { tolerance: 5 },
+                    },
+                  },
+                  "Reservoir Tablets": {
+                    standards: {
+                      BP: { tolerance: 5 },
+                      USP: { tolerance: 5 },
+                      EP: { tolerance: 5 },
+                      FDA: { tolerance: 5 },
+                      EDA: { tolerance: 5 },
+                      ICH: { tolerance: 5 },
+                    },
+                  },
+                },
+              },
+
+              "Controlled Release Tablets": {
+                types: {
+                  "Extended-release Tablets": {
+                    standards: {
+                      BP: { tolerance: 5 },
+                      USP: { tolerance: 5 },
+                      EP: { tolerance: 5 },
+                      FDA: { tolerance: 5 },
+                      EDA: { tolerance: 5 },
+                      ICH: { tolerance: 5 },
+                    },
+                  },
+                  "Delayed-release Tablets": {
+                    standards: {
+                      BP: { tolerance: 5 },
+                      USP: { tolerance: 5 },
+                      EP: { tolerance: 5 },
+                      FDA: { tolerance: 5 },
+                      EDA: { tolerance: 5 },
+                      ICH: { tolerance: 5 },
+                    },
+                  },
+                },
+              },
+
+              "Lozenges Tablets": {
+                types: {
+                  "Compressed lozenges Tablets": {
+                    standards: {
+                      BP: { tolerance: 5 },
+                      USP: { tolerance: 5 },
+                      EP: { tolerance: 5 },
+                      FDA: { tolerance: 5 },
+                      EDA: { tolerance: 5 },
+                      ICH: { tolerance: 5 },
+                    },
+                  },
+                  "Hand-rolled lozenges Tablets": {
+                    message: "Test not required due to variability.",
+                  },
+                },
+              },
+              Capsules: {
+                types: {
+                  "Hard Gelatin Capsules": {
+                    standards: {
+                      BP: { tolerance: 10 },
+                      USP: { tolerance: 10 },
+                      EP: { tolerance: 10 },
+                      FDA: { tolerance: 10 },
+                      EDA: { tolerance: 10 },
+                      ICH: { tolerance: 10 },
+                    },
+                  },
+                  "Soft Gelatin Capsules": {
+                    standards: {
+                      BP: { tolerance: 10 },
+                      USP: { tolerance: 10 },
+                      EP: { tolerance: 10 },
+                      FDA: { tolerance: 10 },
+                      EDA: { tolerance: 10 },
+                      ICH: { tolerance: 10 },
+                    },
+                  },
+                },
+              },
+              "Powder for Oral Suspension": {
+                types: {
+                  "Powder in single-dose sachets": {
+                    standards: {
+                      BP: { tolerance: 10 },
+                      USP: { tolerance: 10 },
+                      EP: { tolerance: 10 },
+                      FDA: { tolerance: 10 },
+                      EDA: { tolerance: 10 },
+                      ICH: { tolerance: 10 },
+                    },
+                  },
+                  "Powder in multi-dose containers": {
+                    standards: {
+                      BP: { tolerance: 10 },
+                      USP: { tolerance: 10 },
+                      EP: { tolerance: 10 },
+                      FDA: { tolerance: 10 },
+                      EDA: { tolerance: 10 },
+                      ICH: { tolerance: 10 },
+                    },
+                  },
+                },
+              },
+
+              "Effervescent Dosage": {
+                types: {
+                  "Effervescent Tablets": {
+                    standards: {
+                      BP: { tolerance: 5 },
+                      USP: { tolerance: 5 },
+                      EP: { tolerance: 5 },
+                      FDA: { tolerance: 5 },
+                      EDA: { tolerance: 5 },
+                      ICH: { tolerance: 5 },
+                    },
+                  },
+                  "Effervescent Powders": {
+                    standards: {
+                      BP: { tolerance: 10 },
+                      USP: { tolerance: 10 },
+                      EP: { tolerance: 10 },
+                      FDA: { tolerance: 10 },
+                      EDA: { tolerance: 10 },
+                      ICH: { tolerance: 10 },
+                    },
+                  },
+                  "Effervescent Granules": {
+                    standards: {
+                      BP: { tolerance: 10 },
+                      USP: { tolerance: 10 },
+                      EP: { tolerance: 10 },
+                      FDA: { tolerance: 10 },
+                      EDA: { tolerance: 10 },
+                      ICH: { tolerance: 10 },
+                    },
+                  },
+                },
+              },
+
+              "Powder for Inhalation": {
+                types: {
+                  "Pre-metered doses": {
+                    standards: {
+                      BP: { tolerance: 10 },
+                      USP: { tolerance: 10 },
+                      EP: { tolerance: 10 },
+                      FDA: { tolerance: 10 },
+                      EDA: { tolerance: 10 },
+                      ICH: { tolerance: 10 },
+                    },
+                  },
+                  "Bulk powder": {
+                    message:
+                      " Weight variation test typically not required, content uniformity test preferred.",
+                  },
                 },
               },
             },
           },
         },
-      },
-    },
-    "Friability Test": {
-      dosageForms: {
-        "Immediate Release Tablets": {
-          message:
-            "Friability ≤1.0% weight loss after 100 rotations in a friability tester. Tablets with unit weight >650 mg may use 10 tablets; lighter tablets require a sample weight ≥6.5 g.",
-          types: {
-            "Uncoated Tablets": {
-              standards: {
-                BP: { maxDifference: 1.0 },
-                USP: { maxDifference: 1.0 },
-                EP: { maxDifference: 1.0 },
-                FDA: { maxDifference: 1.0 },
-                EDA: { maxDifference: 1.0 },
-                ICH: { maxDifference: 1.0 },
-              },
-            },
-          },
-        },
-        "Sustained Release Tablets": {
-          message:
-            "Friability is generally not tested for sustained-release tablets due to coating or modified-release properties.",
-        },
-        "Controlled Release Tablets": {
-          message:
-            "Friability is not typically tested for controlled-release tablets due to the protective coating or other physical modifications.",
-        },
-        Lozenges: {
-          message:
-            "Friability test is not required, as these are designed for slow dissolution in the mouth.",
-        },
-        Capsules: {
-          message:
-            "Friability test is not conducted for capsules. Instead, tests focus on mechanical integrity and content uniformity.",
-        },
-        "Powder Dosage": {
-          message: "Friability does not apply to powder forms.",
-        },
-        "Effervescent Dosage": {
-          types: {
-            "Effervescent Tablets": {
-              standards: {
-                BP: { maxDifference: 1.0 },
-                USP: { maxDifference: 1.0 },
-                EP: { maxDifference: 1.0 },
-                FDA: { maxDifference: 1.0 },
-                EDA: { maxDifference: 1.0 },
-                ICH: { maxDifference: 1.0 },
-              },
-            },
-            "Effervescent Powders": {
-              message: "Friability is not tested for powders.",
-            },
-            "Effervescent Granules": {
-              message: "Friability is not tested for granules.",
-            },
-          },
-        },
-      },
-    },
-    "Thickness Test": {
-      dosageForms: {
-        "Immediate Release Tablets": {
-          types: {
-            "Uncoated Tablets": {
-              standards: {
-                BP: { maxDifference: 5 },
-                USP: { maxDifference: 5 },
-                EP: { maxDifference: 5 },
-                FDA: { maxDifference: 5 },
-                EDA: { maxDifference: 5 },
-                ICH: { maxDifference: 5 },
-              },
-            },
-            "Coated Tablets": {
-              standards: {
-                BP: { maxDifference: 5 },
-                USP: { maxDifference: 5 },
-                EP: { maxDifference: 5 },
-                FDA: { maxDifference: 5 },
-                EDA: { maxDifference: 5 },
-                ICH: { maxDifference: 5 },
-              },
-            },
-          },
-        },
-        "Sustained Release Tablets": {
-          types: {
-            "Matrix Tablets": {
-              standards: {
-                BP: { maxDifference: 5 },
-                USP: { maxDifference: 5 },
-                EP: { maxDifference: 5 },
-                FDA: { maxDifference: 5 },
-                EDA: { maxDifference: 5 },
-                ICH: { maxDifference: 5 },
-              },
-            },
-            "Reservoir Tablets": {
-              standards: {
-                BP: { maxDifference: 5 },
-                USP: { maxDifference: 5 },
-                EP: { maxDifference: 5 },
-                FDA: { maxDifference: 5 },
-                EDA: { maxDifference: 5 },
-                ICH: { maxDifference: 5 },
-              },
-            },
-          },
-        },
-        "Controlled Release Tablets": {
-          types: {
-            "Extended-release Tablets": {
-              standards: {
-                BP: { maxDifference: 5 },
-                USP: { maxDifference: 5 },
-                EP: { maxDifference: 5 },
-                FDA: { maxDifference: 5 },
-                EDA: { maxDifference: 5 },
-                ICH: { maxDifference: 5 },
-              },
-            },
-            "Delayed-release Tablets": {
-              standards: {
-                BP: { maxDifference: 5 },
-                USP: { maxDifference: 5 },
-                EP: { maxDifference: 5 },
-                FDA: { maxDifference: 5 },
-                EDA: { maxDifference: 5 },
-                ICH: { maxDifference: 5 },
-              },
-            },
-          },
-        },
-        Lozenges: {
-          types: {
-            "Compressed Lozenges": {
-              standards: {
-                BP: { maxDifference: 5 },
-                USP: { maxDifference: 5 },
-                EP: { maxDifference: 5 },
-                FDA: { maxDifference: 5 },
-                EDA: { maxDifference: 5 },
-                ICH: { maxDifference: 5 },
-              },
-            },
-          },
-        },
-        Capsules: {
-          message: "Thickness testing is not performed on capsules.",
-        },
-      
-        "Effervescent Doasge": {
-          types: {
-            "Effervescent Tablets": {
-              standards: {
-                BP: { maxDifference: 5 },
-                USP: { maxDifference: 5 },
-                EP: { maxDifference: 5 },
-                FDA: { maxDifference: 5 },
-                EDA: { maxDifference: 5 },
-                ICH: { maxDifference: 5 },
-              },
-            },
-            "Effervescent Powders": {
-              message: "Thickness testing is not relevant for powders.",
-            },
-            "Effervescent Granules": {
-              message: "Thickness testing is not relevant for granules.",
-            },
-          },
-        },
-       
-        "Powder Dosage": {
-          message: "Thickness testing is not relevant for powders.",
-        },
-       
-      },
-    },
-  },
-};
+      };
       function resetResultMessage() {
         document.getElementById("resultMessage").textContent = "";
       }
@@ -819,10 +1094,20 @@
         const selectedTest = this.value;
 
         // Show the "Actual Value" field if "Friability" test is selected
-        if (selectedTest === "Friability Test"||selectedTest === "Thickness Test") {
+        if (
+          selectedTest === "Friability Test" ||
+          selectedTest === "Thickness Test" ||
+          selectedTest === "weight Variation Test"
+        ) {
           document.getElementById("actualValueField").style.display = "block";
+          document.getElementById("WeightValueField").style.display = "none";
         } else {
           document.getElementById("actualValueField").style.display = "none";
+          document.getElementById("WeightValueField").style.display = "none";
+
+          document.getElementById("type").classList.remove("hidden");
+          document.getElementById("pharmaStandard").classList.remove("hidden");
+          document.getElementById("measuredValue").classList.remove("hidden");
         }
 
         populateNextDropdown(
@@ -846,7 +1131,12 @@
             document.getElementById("resultMessage").textContent =
               data.tests[selectedTest]?.dosageForms[selectedForm]?.message;
             document.getElementById("resultMessage").style.color = "blue";
-            if (selectedTest === "Friability Test" ||selectedTest === "Thickness Test") {
+
+            if (
+              selectedTest === "Friability Test" ||
+              selectedTest === "Thickness Test" ||
+              selectedTest === "weight Variation Test"
+            ) {
               document.getElementById("actualValueField").style.display =
                 "none";
             }
@@ -856,8 +1146,19 @@
           document.getElementById("type").classList.remove("hidden");
           document.getElementById("pharmaStandard").classList.remove("hidden");
           document.getElementById("measuredValue").classList.remove("hidden");
-          if (selectedTest === "Friability Test" ||selectedTest === "Thickness Test") {
+          document.getElementById("WeightValueField").style.display = "none";
+          const range =
+            data.tests[selectedTest]?.dosageForms[selectedForm]?.range;
+
+          if (
+            selectedTest === "Friability Test" ||
+            selectedTest === "Thickness Test" ||
+            selectedTest === "weight Variation Test"
+          ) {
             document.getElementById("actualValueField").style.display = "block";
+          }
+          if (selectedTest === "weight Variation Test" && range) {
+            document.getElementById("WeightValueField").style.display = "block";
           }
 
           populateNextDropdown(
@@ -885,17 +1186,33 @@
               selectedType
             ].message;
           document.getElementById("resultMessage").style.color = "blue";
-          if (selectedTest === "Friability Test"||selectedTest === "Thickness Test")
+          if (
+            selectedTest === "Friability Test" ||
+            selectedTest === "Thickness Test"||
+            selectedTest === "weight Variation Test"
+          )
             document.getElementById("actualValueField").style.display = "none";
 
           return;
         }
+        const range =
+            data.tests[selectedTest]?.dosageForms[selectedForm]?.range;
+
+        if (!range)
+          document.getElementById("WeightValueField").style.display = "none";
 
         document.getElementById("pharmaStandard").classList.remove("hidden");
         document.getElementById("measuredValue").classList.remove("hidden");
-        if (selectedTest === "Friability Test"||selectedTest === "Thickness Test") {
+        if (
+          selectedTest === "Friability Test" ||
+          selectedTest === "Thickness Test" ||
+          selectedTest === "weight Variation Test"
+        ) {
           document.getElementById("actualValueField").style.display = "block";
         }
+        console.log(data.tests[selectedTest]?.dosageForms[selectedForm]?.types[
+            selectedType
+          ]?.standards)
         populateNextDropdown(
           selectedType,
           "pharmaStandard",
@@ -915,7 +1232,11 @@
         );
         let actualValue = null;
 
-        if (test === "Friability Test"||test === "Thickness Test") {
+        if (
+          test === "Friability Test" ||
+          test === "Thickness Test" ||
+          test === "weight Variation Test"
+        ) {
           actualValue = parseFloat(
             document.getElementById("actualValue").value
           );
@@ -927,7 +1248,10 @@
           !type ||
           !pharmaStandard ||
           isNaN(measuredValue) ||
-          ((test === "Friability Test"||test === "Thickness Test") && isNaN(actualValue))
+          ((test === "Friability Test" ||
+            test === "Thickness Test" ||
+            test === "weight Variation Test") &&
+            isNaN(actualValue))
         ) {
           document.getElementById("resultMessage").textContent =
             "Please complete all fields before submitting.";
@@ -939,19 +1263,81 @@
           data.tests[test]?.dosageForms[dosageForm]?.types[type]?.standards[
             pharmaStandard
           ];
-
+        const Range = data.tests[test]?.dosageForms[dosageForm]?.range;
         if (!standard) {
           document.getElementById("resultMessage").textContent =
             "Standards not found for the selected options.";
           document.getElementById("resultMessage").style.color = "red";
           return;
         }
+        if (standard.min !== undefined && standard.max !== undefined) {
+          if (measuredValue >= standard.min && measuredValue <= standard.max) {
+            resultMessage.textContent =
+              "Measured value is within the acceptable range.";
+            resultMessage.style.color = "green";
+          } else {
+            resultMessage.textContent = `Measured value is outside the acceptable range (${standard.min}–${standard.max}).`;
+            resultMessage.style.color = "red";
+          }
+        } else if (standard.max !== undefined) {
+          if (measuredValue <= standard.max) {
+            resultMessage.textContent =
+              "Measured value is within the acceptable limit.";
+            resultMessage.style.color = "green";
+          } else {
+            resultMessage.textContent = `Measured value exceeds the acceptable limit (${standard.max}).`;
+            resultMessage.style.color = "red";
+          }
+        }
 
-        if ((test === "Friability Test"||test === "Thickness Test") && actualValue !== null) {
-          const acceptableDifference = standard.maxDifference || 0;
+        if (
+          (test === "Friability Test" ||
+            test === "Thickness Test" ||
+            test === "weight Variation Test") &&
+          actualValue !== null
+        ) {
+          let rangeData;
+          if (Range) {
+            const enteredWeight = parseFloat(
+              document.getElementById("weightValue").value
+            );
+            const ranges = standard.ranges;
+            rangeData = ranges.find((r) => {
+              if (
+                r.weightRange.includes("<") &&
+                enteredWeight < parseFloat(r.weightRange.slice(1))
+              ) {
+                return true;
+              }
+              if (
+                r.weightRange.includes(">") &&
+                enteredWeight > parseFloat(r.weightRange.slice(1))
+              ) {
+                return true;
+              }
+              if (r.weightRange.includes("-")) {
+                const [low, high] = r.weightRange.split("-").map(parseFloat);
+                return enteredWeight >= low && enteredWeight <= high;
+              }
+              return false;
+            });
+            if (!rangeData) {
+              document.getElementById("resultMessage").textContent =
+                "Weight range not found";
+              document.getElementById("resultMessage").style.color = "red";
+
+              return;
+            }
+          }
+
+          const acceptableDifference =
+            standard.maxDifference ||
+            standard.tolerance ||
+            rangeData?.tolerance ||
+            0;
           const difference = Math.abs(measuredValue - actualValue);
 
-          if (difference <= acceptableDifference/100) {
+          if (difference <= acceptableDifference) {
             document.getElementById("resultMessage").textContent =
               "The difference is within the acceptable range.";
             document.getElementById("resultMessage").style.color = "green";
